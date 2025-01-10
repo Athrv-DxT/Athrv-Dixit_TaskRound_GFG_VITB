@@ -16,6 +16,87 @@ body {
     position: relative;
     scroll-behavior: smooth;
 }
+.navbar {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    background: rgba(47, 141, 70, 0.85);  
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 12px 15px;
+    z-index: 1000;
+    transition: all 0.4s ease-in-out;
+    box-shadow: 0 4px 20px rgba(47, 141, 70, 0.2);  
+}
+
+.navbar.visible {
+    top: 20px;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;  
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 10px 22px;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: linear-gradient(45deg, #30e8bf, #ff8235);  
+    transition: width 0.3s ease, height 0.3s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: -1;
+    border-radius: 15px;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+}
+
+.nav-links a.active {
+    background: linear-gradient(45deg, rgba(48, 232, 191, 0.2), rgba(255, 130, 53, 0.2));  
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
 
 #main {
     position: relative;
@@ -261,7 +342,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Hover Effects */
 .hexagon:hover {
     transform: scale(1.05);
     z-index: 1;
@@ -284,40 +364,56 @@ body {
     transform: translateY(0);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .events-title h1 {
-        font-size: 2.5rem;
-    }
-    
-    .honeycomb {
-        transform: translateY(0);
-    }
-    
-    .hexagon {
-        width: 200px;
-        height: 230px;
-        margin: 5px;
-    }
-    
-    .hexagon:nth-child(even) {
-        transform: translateY(0);
-    }
-    
-    .hexagon:nth-child(even):hover {
-        transform: scale(1.05);
-    }
-    
-    .event-info h3 {
-        font-size: 1rem;
-    }
-    
-    .event-info p {
-        font-size: 0.8rem;
-    }
+.more-hexagon {
+    position: relative;
+    width: 250px;
+    height: 288px;
+    margin: 0 12px 35px;
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(45deg, #30e8bf, #ff8235);
+    background-size: 200% 200%;
+    animation: gradientMove 3s ease infinite;
+    opacity: 0;
 }
 
-/* Sessions Title Styles */
+.more-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: white;
+}
+
+.more-text {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: textReveal 0.5s ease forwards;
+}
+
+.more-text:nth-child(1) { animation-delay: 0.2s; }
+.more-text:nth-child(2) { animation-delay: 0.4s; }
+.more-text:nth-child(3) { animation-delay: 0.6s; }
+
+.more-hexagon:hover {
+    transform: scale(1.05);
+    animation: gradientMove 2s ease infinite;
+}
+
+.more-hexagon:hover .more-text {
+    animation: bounce 0.5s ease infinite alternate;
+}
+
+
 .sessions-title {
     text-align: center;
     padding: 2rem 0;
@@ -339,7 +435,6 @@ body {
     animation: shine 3s linear infinite;
 }
 
-/* Carousel Styles */
 .session-carousel {
     width: 100%;
     min-height: 100vh;
@@ -487,113 +582,6 @@ body {
     background: white;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes popIn {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(47, 141, 70, 0.4); }
-    70% { box-shadow: 0 0 0 20px rgba(47, 141, 70, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(47, 141, 70, 0); }
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes bounceIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    body {
-        background: linear-gradient(135deg, #e3f6e5 0%, #f0f9f1 100%);
-    }
-    
-    .container {
-        gap: 1rem;
-    }
-    
-    .typing-text {
-        margin-bottom: 1rem;
-        height: auto;
-        min-height: 2.5rem;
-    }
-    
-    .sessions-title h1 {
-        font-size: 2.5rem;
-    }
-    
-    .carousel-slide {
-        height: 70vh;
-    }
-    
-    .slide-content h2 {
-        font-size: 2.5rem;
-    }
-    
-    .slide-content .description {
-        font-size: 1.1rem;
-    }
-}
-
-@media (hover: none) {
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-}
-
 #contact {
     min-height: 100vh;
     background: linear-gradient(135deg, #e3f6e5 0%, #f0f9f1 50%, #e3f6e5 100%);
@@ -620,16 +608,6 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.ct-container h1::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, #2f8d46, #30e8bf);
 }
 
 .ct-opt {
@@ -721,6 +699,74 @@ body {
     animation: float 20s linear infinite;
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(47, 141, 70, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(47, 141, 70, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(47, 141, 70, 0); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
 @keyframes float {
     0% {
         transform: translate(0, 0) rotate(0deg);
@@ -753,6 +799,144 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes textReveal {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px;
+        width: 90%;
+        max-width: 400px;
+    }
+    
+    .nav-links {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-links a {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 8px 15px;
+    }
+    
+    .nav-links a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .more-hexagon {
+        width: 200px;
+        height: 230px;
+        margin: 5px;
+    }
+    
+    .more-text {
+        font-size: 1.5rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .events-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .honeycomb {
+        transform: translateY(0);
+    }
+    
+    .hexagon {
+        width: 200px;
+        height: 230px;
+        margin: 5px;
+    }
+    
+    .hexagon:nth-child(even) {
+        transform: translateY(0);
+    }
+    
+    .hexagon:nth-child(even):hover {
+        transform: scale(1.05);
+    }
+    
+    .event-info h3 {
+        font-size: 1rem;
+    }
+    
+    .event-info p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background: linear-gradient(135deg, #e3f6e5 0%, #f0f9f1 100%);
+    }
+    
+    .container {
+        gap: 1rem;
+    }
+    
+    .typing-text {
+        margin-bottom: 1rem;
+        height: auto;
+        min-height: 2.5rem;
+    }
+    
+    .sessions-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .carousel-slide {
+        height: 70vh;
+    }
+    
+    .slide-content h2 {
+        font-size: 2.5rem;
+    }
+    
+    .slide-content .description {
+        font-size: 1.1rem;
+    }
+}
+
+@media (hover: none) {
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+}
+
+
+
 
 @media (max-width: 768px) {
     .ct-container h1 {

@@ -1,4 +1,43 @@
-// Main section animations
+let lastScrollTop = 0;
+const navbar = document.querySelector('.navbar');
+const scrollThreshold = 100;
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > scrollThreshold) {
+        if (scrollTop > lastScrollTop) {
+            navbar.classList.add('visible');
+        } 
+    } else {
+        navbar.classList.remove('visible');
+    }
+    
+    lastScrollTop = scrollTop;
+});
+
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= (sectionTop - sectionHeight/3)) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
 function typeText(text, element, speed = 120) {
     let i = 0;
     function typing() {
@@ -49,7 +88,6 @@ function smoothScroll() {
     });
 }
 
-// Events section animations
 function initializeEvents() {
     const hexagons = document.querySelectorAll('.hexagon');
     
@@ -83,36 +121,35 @@ function initializeEvents() {
     });
 }
 
-// Session carousel functionality
 const sessionData = [
     {
         title: "HOW TO BUILD",
-        subtitle: "Blooming Envo + Nature",
-        description: "Spring brings renewal, fresh blooms, and the gentle awakening of nature from its winter slumber.",
+        subtitle: "By: Mr. Quittman Farmer",
+        description: "Step into the future with an insightful talk session on the Metaverse, where technology meets imagination. This session delved into the transformative potential of virtual reality and digital interaction, offering attendees a glimpse into how the Metaverse is reshaping the way we connect, work, and play.",
         image: "images/gfg_ws1.jpg"
     },
     {
         title: "HOW TO NFT",
-        subtitle: "Hot Envo + Vacations",
-        description: "Summer days filled with sunshine, adventure, and the endless possibilities of warm, golden moments.",
+        subtitle: "By: Mr. Tejas Chopra",
+        description: "Unlock the world of digital ownership with an enlightening session on NFTs (Non-Fungible Tokens). This discussion explored the concepts behind NFTs, their role in revolutionizing art, gaming, and technology, and how they are shaping the future of digital assets and blockchain innovation.",
         image: "images/gfg_ws2.jpg"
     },
     {
         title: "HOW TO META",
-        subtitle: "Rainy Envo + sessioning",
-        description: "Monsoon brings the rhythm of rain, the dance of lightning, and the fresh scent of wet earth.",
+        subtitle: "By: Mr. James DiMeo",
+        description: "Exploring the transformative potential of the Metaverse and its real-life applications in the Web3 era, this session highlighted contributions to pioneering platforms like Sandbox and Decentraland, diving deep into the future of virtual worlds.",
         image: "images/gfg_ws3.jpg"
     },
     {
         title: "HOW TO WEB 3.0",
-        subtitle: "Cool Envo + Colors",
-        description: "Autumn paints the world in warm hues, as nature prepares for its winter rest.",
+        subtitle: "Speakers from Netflix, QUED animations and many more",
+        description: "Navigate the future of the internet with an insightful session on Web 3.0. Explore its decentralized architecture, blockchain technologies, and transformative applications that are redefining how we connect, share, and innovate in the digital world.",
         image: "images/gfg_ws4.jpg"
     },
     {
         title: "HOW TO CRYPTO",
-        subtitle: "Cold Envo + Vacations",
-        description: "Winter, a session of crisp air, cozy nights by the fire, and the magic of snow-covered landscapes.",
+        subtitle: "By: Mr. Varun Sethi",
+        description: "Dive into the fascinating world of cryptocurrency with this session, unraveling the basics of blockchain, the mechanics of digital currencies, and their growing impact on the global financial landscape.",
         image: "images/gfg_ws5.jpg"
     }
 ];
@@ -174,7 +211,7 @@ function initializeCarousel() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize carousel
+
     initializeCarousel();
     
     initializeEvents();
